@@ -77,6 +77,44 @@ void display7SEG(int num){
 	HAL_GPIO_WritePin(GPIOB, NumCases[num], GPIO_PIN_RESET);
 }
 
+const int MAX_LED = 4;
+int index_led = 0;
+int led_buffer[4] = {1, 2, 3, 4};
+void update7SEG(int index){
+    switch (index){
+        case 0:
+            //Display the first 7SEG with led_buffer[0]
+        	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+            break;
+        case 1:
+			//Display the second 7SEG with led_buffer[1]
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+            break;
+        case 2:
+			//Display the third 7SEG with led_buffer[2]
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+            break;
+        case 3:
+            //Display the forth 7SEG with led_buffer[3]
+			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
+            break;
+        default:
+            break;
+    }
+    display7SEG(led_buffer[index]);
+}
 /* USER CODE END 0 */
 
 /**
@@ -116,8 +154,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   setTimer1(1);
   setTimer2(1);
-  uint16_t CurrentENPin = 0b0000001000000000; //PA6 == EN0
-  int state = 0;
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_All, SET);
   while (1)
   {
@@ -128,13 +164,8 @@ int main(void)
 	}
 	if (timer2_flag == 1){
 		setTimer2(50);
-		HAL_GPIO_WritePin(GPIOA, CurrentENPin, SET);
-		CurrentENPin = (CurrentENPin << 1);
-		if (CurrentENPin >= 0b0000010000000000 ) CurrentENPin = 0b0000000001000000; // If PA5 (DOT) thì set lại là PA9(EN3)
-		HAL_GPIO_WritePin(GPIOA, CurrentENPin, RESET);
-		state ++;
-		if (state >= 4) state %= 4 ;
-		display7SEG(state);
+		if (index_led >= MAX_LED) index_led = 0;
+		update7SEG(index_led++);
 	}
     /* USER CODE END WHILE */
   }
