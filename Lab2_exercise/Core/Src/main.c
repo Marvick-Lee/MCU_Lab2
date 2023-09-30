@@ -43,11 +43,7 @@
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
-const int segled[] = {
-		0b00111111,
-		0b00000110,
-		0b01011011,
-};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -115,6 +111,13 @@ void update7SEG(int index){
     }
     display7SEG(led_buffer[index]);
 }
+
+void updateClockBuffer(int hour, int minute){
+	led_buffer[0] = hour / 10;
+	led_buffer[1] = hour % 10;
+	led_buffer[2] = minute / 10;
+	led_buffer[3] = minute % 10;
+}
 /* USER CODE END 0 */
 
 /**
@@ -152,22 +155,21 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  // Mỗi cycle 1Hz => Mỗi led_buffer 0.25s
-  setTimer1(1);
-  setTimer2(1);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_All, SET);
-  while (1)
-  {
-	//TODO1
-	if(timer1_flag == 1){
-		setTimer1(100);
-		HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
-	}
-	if (timer2_flag == 1){
-		setTimer2(25);
-		if (index_led >= MAX_LED) index_led = 0;
-		update7SEG(index_led++);
-	}
+  int hour = 15, minute = 8, second = 50;
+   while (1)
+   {
+ 	  second++;
+ 	  if (second >= 60){
+ 		  second = 0;
+ 		  minute++;
+ 	  }
+ 	  if(minute >= 60){
+ 		  minute = 0;
+ 		  hour++;
+ 	  }
+ 	  if(hour >=24) hour = 0;
+ 	  updateClockBuffer(hour, minute);
+ 	  HAL_Delay (1000) ;
     /* USER CODE END WHILE */
   }
     /* USER CODE BEGIN 3 */
