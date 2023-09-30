@@ -56,6 +56,21 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int timer0_counter = 0;
+int timer0_flag = 0;
+int TIMER_CYCLE = 10;
+void setTimer0 (int duration ) {
+	timer0_counter = duration / TIMER_CYCLE ;
+	timer0_flag = 0;
+}
+
+void timer_run () {
+	if( timer0_counter > 0) {
+		timer0_counter --;
+		if( timer0_counter == 0) timer0_flag = 1;
+	}
+}
+
 const int NumCases[]={
 		0b00111111,
 		0b00000110,
@@ -118,6 +133,7 @@ void updateClockBuffer(int hour, int minute){
 	led_buffer[2] = minute / 10;
 	led_buffer[3] = minute % 10;
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -155,21 +171,26 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int hour = 15, minute = 8, second = 50;
-   while (1)
-   {
- 	  second++;
- 	  if (second >= 60){
- 		  second = 0;
- 		  minute++;
- 	  }
- 	  if(minute >= 60){
- 		  minute = 0;
- 		  hour++;
- 	  }
- 	  if(hour >=24) hour = 0;
- 	  updateClockBuffer(hour, minute);
- 	  HAL_Delay (1000) ;
+  setTimer0 (1000) ;
+ // int hour = 12, minute = 24, second = 48;
+  while (1)
+  {
+	  if( timer0_flag == 1) {
+		  HAL_GPIO_TogglePin ( LED_RED_GPIO_Port , LED_RED_Pin );
+		  setTimer0 (2000) ;
+	  }
+// 	  second++;
+// 	  if (second >= 60){
+// 		  second = 0;
+// 		  minute++;
+// 	  }
+// 	  if(minute >= 60){
+// 		  minute = 0;
+// 		  hour++;
+// 	  }
+// 	  if(hour >=24) hour = 0;
+// 	  updateClockBuffer(hour, minute);
+// 	  HAL_Delay (1000) ;
     /* USER CODE END WHILE */
   }
     /* USER CODE BEGIN 3 */
@@ -299,8 +320,9 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
+//	timerRun();
 	//TODO2
+	timer_run ();
 };
 /* USER CODE END 4 */
 
