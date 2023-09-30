@@ -115,25 +115,26 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(1);
+  setTimer2(1);
+  uint16_t CurrentENPin = 0b0000001000000000; //PA6 == EN0
   int state = 0;
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_All, SET);
   while (1)
   {
+	//TODO1
 	if(timer1_flag == 1){
-		//TODO1
-		setTimer1(50);
-		if (state % 2 == 1) {
-			//In ra 2 trong cái EN1
-			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
-			display7SEG(2);
-		}
-		else {
-			//In ra 1 trong cái EN0
-			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
-			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-			display7SEG(1);
-		}
+		setTimer1(100);
+		HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+	}
+	if (timer2_flag == 1){
+		setTimer2(50);
+		HAL_GPIO_WritePin(GPIOA, CurrentENPin, SET);
+		CurrentENPin = (CurrentENPin << 1);
+		if (CurrentENPin >= 0b0000010000000000 ) CurrentENPin = 0b0000000001000000; // If PA5 (DOT) thì set lại là PA9(EN3)
+		HAL_GPIO_WritePin(GPIOA, CurrentENPin, RESET);
 		state ++;
+		if (state >= 4) state %= 4 ;
+		display7SEG(state);
 	}
     /* USER CODE END WHILE */
   }
