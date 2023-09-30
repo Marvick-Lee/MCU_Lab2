@@ -152,6 +152,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  // Mỗi cycle 1Hz => Mỗi led_buffer 0.25s
   setTimer1(1);
   setTimer2(1);
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_All, SET);
@@ -163,7 +164,7 @@ int main(void)
 		HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 	}
 	if (timer2_flag == 1){
-		setTimer2(50);
+		setTimer2(25);
 		if (index_led >= MAX_LED) index_led = 0;
 		update7SEG(index_led++);
 	}
