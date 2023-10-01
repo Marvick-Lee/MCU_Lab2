@@ -141,7 +141,7 @@ uint8_t matrix_buffer[8] = {
 0b10011001,
 0b10011001
 };//A, binary to see it easier
-void displayMatrix(int num) {
+void displayARow(int num) {
 	uint8_t matrix = matrix_buffer[num];
 	HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, (matrix>>0) & 0x01 ? 1 : 0);
 	HAL_GPIO_WritePin(ENM1_GPIO_Port, ENM1_Pin, (matrix>>1) & 0x01 ? 1 : 0);
@@ -165,35 +165,35 @@ void updateLEDMatrix (int index ) {
 	switch (index){
 		case 0:	/* ROW0 */
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 0);
-			displayMatrix(index);
+			displayARow(index);
 			break;
 		case 1:	/* ROW1 */
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin, 0);
-			displayMatrix(index);
+			displayARow(index);
 			break;
 		case 2:	/* ROW2 */
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW2_Pin, 0);
-			displayMatrix(index);
+			displayARow(index);
 			break;
 		case 3:	/* ROW3 */
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW3_Pin, 0);
-			displayMatrix(index);
+			displayARow(index);
 			break;
 		case 4:	/* ROW4 */
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW4_Pin, 0);
-			displayMatrix(index);
+			displayARow(index);
 			break;
 		case 5:	/* ROW5 */
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW5_Pin, 0);
-			displayMatrix(index);
+			displayARow(index);
 			break;
 		case 6:	/* ROW6 */
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW6_Pin, 0);
-			displayMatrix(index);
+			displayARow(index);
 			break;
 		case 7:	/* ROW7 */
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW7_Pin, 0);
-			displayMatrix(index);
+			displayARow(index);
 			break;
 		default:
 			break;
