@@ -7,7 +7,7 @@
 
 #include "software_timer.h"
 
-int TIMER_CYCLE = 1;
+int TIMER_CYCLE = 10;
 int timer1_counter = 0;
 int timer1_flag = 0;
 
