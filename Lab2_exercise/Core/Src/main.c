@@ -153,6 +153,14 @@ void displayMatrix(int num) {
 	HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, (matrix>>7) & 0x01 ? 1 : 0);
 }
 
+void ledGoUwU(){
+	uint8_t temp = matrix_buffer[0];
+	for (int i = 0; i<MAX_LED_MATRIX - 1; i++){
+		matrix_buffer[i]= matrix_buffer[i+1];
+	}
+	matrix_buffer[7] = temp;
+}
+
 void updateLEDMatrix (int index ) {
 	switch (index){
 		case 0:	/* ROW0 */
@@ -279,7 +287,7 @@ void updateLEDMatrix (int index ) {
       setTimer2(10);
       setTimer3(10);
       setTimer4(10);
-      int hour = 12, minute = 24, second = 03;
+      int hour = 12, minute = 34, second = 56;
       updateClockBuffer(hour, minute);
       int secondCounter = 0; //4 is a second, 1s run 4 led, 1 led 0.25 s, update time 1s
       while (1)
@@ -316,6 +324,7 @@ void updateLEDMatrix (int index ) {
     	  		  setTimer4(180);
     	  		  updateLEDMatrix(index_led_matrix++);
     	  		  if(index_led_matrix == MAX_LED_MATRIX){
+    	  			  ledGoUwU();
     	  			  index_led_matrix = 0;
     	  		  }
     	 }
