@@ -132,14 +132,14 @@ void updateClockBuffer(int hour, int minute){
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
 uint8_t matrix_buffer[8] = {
-0b11100111,
-0b11000011,
-0b10011001,
-0b10011001,
-0b10000001,
-0b10000001,
-0b10011001,
-0b10011001
+0b11111111,
+0b11000000,
+0b10000000,
+0b00110011,
+0b00110011,
+0b10000000,
+0b11000000,
+0b11111111
 };//A, binary to see it easier
 void displayMatrix(int num) {
 	uint8_t matrix = matrix_buffer[num];
@@ -153,46 +153,46 @@ void displayMatrix(int num) {
 	HAL_GPIO_WritePin(ENM7_GPIO_Port, ENM7_Pin, (matrix>>7) & 0x01 ? 1 : 0);
 }
 
-void updateLEDMatrix (int index ) {
+void updateLEDMatrix (int index) {
 	switch (index){
-		case 0:	/* ROW0 */
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, 0);
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin | ROW2_Pin | ROW3_Pin | ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin, 1);
+		case 0:	/* COL0 */
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL0_Pin, 0);
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL1_Pin | COL2_Pin | COL3_Pin | COL4_Pin | COL5_Pin | COL6_Pin | COL7_Pin, 1);
 			displayMatrix(index);
 			break;
-		case 1:	/* ROW1 */
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin, 0);
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin | ROW2_Pin | ROW3_Pin | ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin, 1);
+		case 1:	/* COL1 */
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL1_Pin, 0);
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL0_Pin | COL2_Pin | COL3_Pin | COL4_Pin | COL5_Pin | COL6_Pin | COL7_Pin, 1);
 			displayMatrix(index);
 			break;
-		case 2:	/* ROW2 */
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW2_Pin, 0);
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin | ROW0_Pin | ROW3_Pin | ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin, 1);
+		case 2:	/* COL2 */
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL2_Pin, 0);
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL1_Pin | COL0_Pin | COL3_Pin | COL4_Pin | COL5_Pin | COL6_Pin | COL7_Pin, 1);
 			displayMatrix(index);
 			break;
-		case 3:	/* ROW3 */
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW3_Pin, 0);
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin | ROW2_Pin | ROW0_Pin | ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin, 1);
+		case 3:	/* COL3 */
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL3_Pin, 0);
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL1_Pin | COL2_Pin | COL0_Pin | COL4_Pin | COL5_Pin | COL6_Pin | COL7_Pin, 1);
 			displayMatrix(index);
 			break;
-		case 4:	/* ROW4 */
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW4_Pin, 0);
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin | ROW2_Pin | ROW3_Pin | ROW0_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin, 1);
+		case 4:	/* COL4 */
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL4_Pin, 0);
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL1_Pin | COL2_Pin | COL3_Pin | COL0_Pin | COL5_Pin | COL6_Pin | COL7_Pin, 1);
 			displayMatrix(index);
 			break;
-		case 5:	/* ROW5 */
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW5_Pin, 0);
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin | ROW2_Pin | ROW3_Pin | ROW4_Pin | ROW0_Pin | ROW6_Pin | ROW7_Pin, 1);
+		case 5:	/* COL5 */
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL5_Pin, 0);
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL1_Pin | COL2_Pin | COL3_Pin | COL4_Pin | COL0_Pin | COL6_Pin | COL7_Pin, 1);
 			displayMatrix(index);
 			break;
-		case 6:	/* ROW6 */
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW6_Pin, 0);
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin | ROW2_Pin | ROW3_Pin | ROW4_Pin | ROW5_Pin | ROW0_Pin | ROW7_Pin, 1);
+		case 6:	/* COL6 */
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL6_Pin, 0);
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL1_Pin | COL2_Pin | COL3_Pin | COL4_Pin | COL5_Pin | COL0_Pin | COL7_Pin, 1);
 			displayMatrix(index);
 			break;
-		case 7:	/* ROW7 */
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW7_Pin, 0);
-			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW1_Pin | ROW2_Pin | ROW3_Pin | ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW0_Pin, 1);
+		case 7:	/* COL7 */
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL7_Pin, 0);
+			HAL_GPIO_WritePin(COL0_GPIO_Port, COL1_Pin | COL2_Pin | COL3_Pin | COL4_Pin | COL5_Pin | COL6_Pin | COL0_Pin, 1);
 			displayMatrix(index);
 			break;
 		default:
@@ -265,9 +265,9 @@ void updateLEDMatrix (int index ) {
     		 }
     	 }
     	 if(timer4_flag == 1) {
-    	  		  setTimer4(125);
+    	  		  setTimer4(250);
     	  		  updateLEDMatrix(index_led_matrix++);
-    	  		  if(index_led_matrix == 8){
+    	  		  if(index_led_matrix == MAX_LED_MATRIX){
     	  			  index_led_matrix = 0;
     	  		  }
     	 }
@@ -377,10 +377,10 @@ static void MX_GPIO_Init(void)
                           |ENM6_Pin|ENM7_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, SEG0_Pin|SEG1_Pin|SEG2_Pin|ROW2_Pin
-                          |ROW3_Pin|ROW4_Pin|ROW5_Pin|ROW6_Pin
-                          |ROW7_Pin|SEG3_Pin|SEG4_Pin|SEG5_Pin
-                          |SEG6_Pin|ROW0_Pin|ROW1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, SEG0_Pin|SEG1_Pin|SEG2_Pin|COL2_Pin
+                          |COL3_Pin|COL4_Pin|COL5_Pin|COL6_Pin
+                          |COL7_Pin|SEG3_Pin|SEG4_Pin|SEG5_Pin
+                          |SEG6_Pin|COL0_Pin|COL1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : ENM0_Pin ENM1_Pin DOT_Pin LED_RED_Pin
                            EN0_Pin EN1_Pin EN2_Pin EN3_Pin
@@ -395,14 +395,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SEG0_Pin SEG1_Pin SEG2_Pin ROW2_Pin
-                           ROW3_Pin ROW4_Pin ROW5_Pin ROW6_Pin
-                           ROW7_Pin SEG3_Pin SEG4_Pin SEG5_Pin
-                           SEG6_Pin ROW0_Pin ROW1_Pin */
-  GPIO_InitStruct.Pin = SEG0_Pin|SEG1_Pin|SEG2_Pin|ROW2_Pin
-                          |ROW3_Pin|ROW4_Pin|ROW5_Pin|ROW6_Pin
-                          |ROW7_Pin|SEG3_Pin|SEG4_Pin|SEG5_Pin
-                          |SEG6_Pin|ROW0_Pin|ROW1_Pin;
+  /*Configure GPIO pins : SEG0_Pin SEG1_Pin SEG2_Pin COL2_Pin
+                           COL3_Pin COL4_Pin COL5_Pin COL6_Pin
+                           COL7_Pin SEG3_Pin SEG4_Pin SEG5_Pin
+                           SEG6_Pin COL0_Pin COL1_Pin */
+  GPIO_InitStruct.Pin = SEG0_Pin|SEG1_Pin|SEG2_Pin|COL2_Pin
+                          |COL3_Pin|COL4_Pin|COL5_Pin|COL6_Pin
+                          |COL7_Pin|SEG3_Pin|SEG4_Pin|SEG5_Pin
+                          |SEG6_Pin|COL0_Pin|COL1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
