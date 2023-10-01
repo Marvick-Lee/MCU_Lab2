@@ -155,23 +155,41 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int hour = 15, minute = 8, second = 50;
+   setTimer2(1) ;
+   setTimer1(1);
+   int hour = 15, minute = 8, second = 50;
+   updateClockBuffer(hour, minute);
+   int secondCounter = 0; //4 is a second, 1s run 4 led, 1 led 0.25 s, update time 1s
    while (1)
    {
- 	  second++;
- 	  if (second >= 60){
- 		  second = 0;
- 		  minute++;
+ 	  if( timer2_flag == 1) {
+ 		  HAL_GPIO_TogglePin ( LED_RED_GPIO_Port , LED_RED_Pin );
+ 		  setTimer2 (200) ;
  	  }
- 	  if(minute >= 60){
- 		  minute = 0;
- 		  hour++;
- 	  }
- 	  if(hour >=24) hour = 0;
- 	  updateClockBuffer(hour, minute);
- 	  HAL_Delay (1000) ;
-    /* USER CODE END WHILE */
-  }
+ 	  if (timer1_flag ==1){
+ 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+ 		  update7SEG(index_led++);
+ 		  setTimer1(25);
+ 		  secondCounter++;
+ 		  if (secondCounter == 4){
+ 			  second++;
+ 			  if (second >= 60){
+ 				  second = 0;
+ 				  minute++;
+ 			  }
+ 			  if(minute >= 60){
+ 				  minute = 0;
+ 				  hour++;
+ 			  }
+ 			  if(hour >=24) hour = 0;
+ 			  updateClockBuffer(hour, minute);
+ 			  secondCounter %= 4;
+ 			  index_led = 0;
+ 		 }
+ 	 }
+     /* USER CODE END WHILE */
+   }
+
     /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
