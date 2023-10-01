@@ -56,6 +56,16 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+  /* USER CODE BEGIN 1 */
 const int NumCases[]={
 		0b00111111,
 		0b00000110,
@@ -118,16 +128,6 @@ void updateClockBuffer(int hour, int minute){
 	led_buffer[2] = minute / 10;
 	led_buffer[3] = minute % 10;
 }
-/* USER CODE END 0 */
-
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
-int main(void)
-{
-  /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -155,45 +155,44 @@ int main(void)
 
   /* Infinite loop */
     /* USER CODE BEGIN WHILE */
-    setTimer1(10);
-    setTimer2(10);
-    setTimer3(10);
-    int hour = 15, minute = 8, second = 50;
-    updateClockBuffer(hour, minute);
-    int secondCounter = 0; //4 is a second, 1s run 4 led, 1 led 0.25 s, update time 1s
-    while (1)
-    {
-  	  if(timer1_flag == 1) {
-  		  HAL_GPIO_TogglePin ( LED_RED_GPIO_Port , LED_RED_Pin );
-  		  setTimer1(2000);
-  	  }
-  	  if (timer2_flag == 1){
-  		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
-  		  setTimer2(500);
-  	  }
-  	  if (timer3_flag ==1){
-  		  update7SEG(index_led++);
-  		  setTimer3(250);
-  		  secondCounter++;
-  		  if (secondCounter == 4){
-  			  second++;
-  			  if (second >= 60){
-  				  second = 0;
-  				  minute++;
-  			  }
-  			  if(minute >= 60){
-  				  minute = 0;
-  				  hour++;
-  			  }
-  			  if(hour >=24) hour = 0;
-  			  updateClockBuffer(hour, minute);
-  			  secondCounter %= 4;
-  			  index_led = 0;
-  		 }
-  	 }
-      /* USER CODE
-       *  END WHILE */
-    }
+  	  setTimer1(10);
+      setTimer2(10);
+      setTimer3(10);
+      int hour = 12, minute = 24, second = 03;
+      updateClockBuffer(hour, minute);
+      int secondCounter = 0; //4 is a second, 1s run 4 led, 1 led 0.25 s, update time 1s
+      while (1)
+      {
+    	  if(timer1_flag == 1) {
+    		  HAL_GPIO_TogglePin ( LED_RED_GPIO_Port , LED_RED_Pin );
+    		  setTimer1(2000);
+    	  }
+    	  if (timer2_flag == 1){
+    		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+    		  setTimer2(500);
+    	  }
+    	  if (timer3_flag ==1){
+    		  update7SEG(index_led++);
+    		  setTimer3(250);
+    		  secondCounter++;
+    		  if (secondCounter == 4){ // a second
+    			  second++;
+    			  if (second >= 60){
+    				  second = 0;
+    				  minute++;
+    			  }
+    			  if(minute >= 60){
+    				  minute = 0;
+    				  hour++;
+    			  }
+    			  if(hour >=24) hour = 0;
+    			  updateClockBuffer(hour, minute);
+    			  secondCounter %= 4;
+    			  index_led = 0;
+    		 }
+    	 }
+        /* USER CODE END WHILE */
+      }
 
     /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
